@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction History</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #0f172a; color: white; padding: 30px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        th { background: #6366f1; }
+        .back-btn { background: #10b981; color: white; padding: 10px 15px; text-decoration: none; border-radius: 8px; }
+    </style>
+</head>
+<body>
+
+    <a href="/" class="back-btn">← Back to Predictor</a>
+    <h2>📊 Your Past Health History</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Date & Time</th>
+                <th>Result</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+            <tr>
+                <td>{{ record.date.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ record.prediction_text }}</td>
+                <td>
+                    <span style="padding: 5px 10px; border-radius: 5px; 
+                    {% if record.category == 'low' %} background: green; 
+                    {% elif record.category == 'medium' %} background: orange; 
+                    {% else %} background: red; {% endif %}">
+                        {{ record.category.upper() }}
+                    </span>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="3">No history found. Try making a prediction first!</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
